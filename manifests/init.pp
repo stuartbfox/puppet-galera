@@ -107,6 +107,10 @@
 #   (Optional) Ensure state for package.
 #   Defaults to 'installed'
 #
+# [*manage_additional_packages*]
+#   (Optional) 
+#   Defaults to false
+#
 # [*service_enabled*]
 #   (optional) Whether the mysql service should be enabled
 #   Defaults to undef
@@ -136,6 +140,7 @@ class galera(
   $client_package_name              = undef,
   $package_ensure                   = 'installed',
   $status_password                  = undef,
+  $manage_additional_packages       = false,
   $service_enabled                  = undef,
 )
 {
@@ -198,13 +203,15 @@ class galera(
     before  => Class['mysql::server::config']
   }
 
-  if $galera::params::additional_packages {
-    ensure_resource(package, $galera::params::additional_packages,
-    {
-      ensure  => $package_ensure,
-      require => Anchor['mysql::server::start'],
-      before  => Class['mysql::server::install']
-    })
+  if $manage_additional_packages {
+    if $galera::params::additional_packages {
+      ensure_resource(package, $galera::params::additional_packages,
+      {
+        ensure  => $package_ensure,
+        require => Anchor['mysql::server::start'],
+        before  => Class['mysql::server::install']
+      })
+    }
   }
 
   Package<| title == 'mysql_client' |> {
