@@ -117,15 +117,14 @@ class galera::repo(
 
         if $epel_needed {
           # Needed for socat package
-          ensure_resource('yumrepo', 'epel' , {
-              'mirrorlist'     => "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-${::os_maj_version}&arch=${::architecture}",
-              'baseurl'        => 'absent',
-              'failovermethod' => 'priority',
-              'enabled'        => '1',
-              'gpgcheck'       => '1',
-              'gpgkey'         => 'https://fedoraproject.org/static/0608B895.txt'
-            }
-          )
+          yumrepo { 'epel':
+            mirrorlist     => "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-${::os_maj_version}&arch=${::architecture}",
+            baseurl        => 'absent',
+            failovermethod => 'priority',
+            enabled        => '1',
+            gpgcheck       => '1',
+            gpgkey         => 'https://fedoraproject.org/static/0608B895.txt'
+          }
         }
       }
       elsif $repo_vendor == 'mariadb' {
