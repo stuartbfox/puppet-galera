@@ -3,11 +3,6 @@
 # Parameters for the galera module
 #
 class galera::params {
-
-  $codership_version = '5.5'
-  $mariadb_version = '5.5'
-  $percona_version = '55'
-
   $server_csl = join($galera::galera_servers, ',')
 
   if $galera::vendor_type == 'percona' {
@@ -23,9 +18,9 @@ class galera::params {
   if ($::osfamily == 'RedHat') {
     if $galera::vendor_type == 'percona' {
       $mysql_service_name = 'mysql'
-      $mysql_package_name_internal = "Percona-XtraDB-Cluster-server-${percona_version}"
+      $mysql_package_name_internal = 'Percona-XtraDB-Cluster-server-55'
       $galera_package_name_internal = 'Percona-XtraDB-Cluster-galera-2'
-      $client_package_name_internal = "Percona-XtraDB-Cluster-client-${percona_version}"
+      $client_package_name_internal = 'Percona-XtraDB-Cluster-client-55'
       $libgalera_location = '/usr/lib64/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'mariadb' {
@@ -37,9 +32,9 @@ class galera::params {
     }
     elsif $galera::vendor_type == 'codership' {
       $mysql_service_name = 'mysql'
-      $mysql_package_name_internal = "mysql-wsrep-${codership_version}"
+      $mysql_package_name_internal = 'mysql-wsrep-5.5'
       $galera_package_name_internal = 'galera-3'
-      $client_package_name_internal = "mysql-wsrep-client-${codership_version}"
+      $client_package_name_internal = 'mysql-wsrep-client-5.5'
       $libgalera_location = '/usr/lib64/galera-3/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'osp5' {
@@ -59,21 +54,21 @@ class galera::params {
   elsif ($::osfamily == 'Debian'){
     $mysql_service_name = 'mysql'
     if $galera::vendor_type == 'percona' {
-      $mysql_package_name_internal = "percona-xtradb-cluster-server-${percona_version}"
+      $mysql_package_name_internal = 'percona-xtradb-cluster-server-5.5'
       $galera_package_name_internal = 'percona-xtradb-cluster-galera-2.x'
-      $client_package_name_internal = "percona-xtradb-cluster-client-${percona_version}"
+      $client_package_name_internal = 'percona-xtradb-cluster-client-5.5'
       $libgalera_location = '/usr/lib/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'mariadb' {
-      $mysql_package_name_internal = "mariadb-galera-server-${mariadb_version}"
+      $mysql_package_name_internal = 'mariadb-galera-server-5.5'
       $galera_package_name_internal = 'galera'
-      $client_package_name_internal = "mariadb-client-${mariadb_version}"
+      $client_package_name_internal = 'mariadb-client-5.5'
       $libgalera_location = '/usr/lib/galera/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'codership' {
-      $mysql_package_name_internal = 'mysql-wsrep-${codership_version}'
+      $mysql_package_name_internal = 'mysql-wsrep-5.5'
       $galera_package_name_internal = 'galera-3'
-      $client_package_name_internal = 'mysql-wsrep-client-${codership_version}'
+      $client_package_name_internal = 'mysql-wsrep-client-5.5'
       $libgalera_location = '/usr/lib/galera/libgalera_smm.so'
     }
     elsif $galera::vendor_type == 'osp5' {
